@@ -31,20 +31,34 @@ class Player:
         self.x, self.y, self.width, self.height, self.speed = x, y, w, h, s
         self.x = self.x * grid.tile_size
         self.y = self.y * grid.tile_size
+        self.direction = 0
+
     def movement(self):
         self.keys = pygame.key.get_pressed()
         if self.keys[pygame.K_LEFT] or self.keys[pygame.K_a]:
             self.x -= self.speed
+            self.direction = 0
         elif self.keys[pygame.K_RIGHT] or self.keys[pygame.K_d]:
             self.x += self.speed
+            self.direction = 1
         elif self.keys[pygame.K_UP] or self.keys[pygame.K_w]:
             self.y -= self.speed
+            self.direction = 2
         elif self.keys[pygame.K_DOWN] or self.keys[pygame.K_s]:
             self.y += self.speed
-        if self.x % 32 != 0:
-            self.x += 1
-        if self.y % 32 != 0:
-            self.y += 1
+            self.direction = 3
+        if self.direction == 0:
+            if self.x % 32 != 0:
+                self.x -= 1
+        if self.direction == 1:
+            if self.x % 32 != 0:
+                self.x += 1
+        if self.direction == 3:
+            if self.y % 32 != 0:
+                self.y += 1
+        if self.direction == 2:
+            if self.y % 32 != 0:
+                self.y -= 1
         if self.x <= 0:
             self.x = 0
         if self.x >= 992:
@@ -60,7 +74,7 @@ class Player:
         print("x " + str(self.x) + " y " + str(self.y))
 
 
-player = Player(0, 0, 32, 32, 5)
+player = Player(0, 0, 32, 32, 1)
 
 
 class Walls:
